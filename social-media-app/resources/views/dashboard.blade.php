@@ -1,4 +1,31 @@
 <x-app-layout>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const like = (postid) => {
+
+            let text = document.getElementById(postid)
+            let count = document.getElementById("count-" + postid)
+            const sub = () => {
+                text.innerText = "🤍";
+                axios.get(`/post/like/remove/${postid}`).then(res => {
+                    console.log(res)
+                    count.innerText = (parseInt(count.innerText) - 1).toString() + " people liked";
+                })
+            }
+            const add = () => {
+                text.innerText = "❤️";
+                axios.get(`/post/like/add/${postid}`).then(res => {
+                    console.log(res)
+                    count.innerText = (parseInt(count.innerText) + 1).toString() + " people liked";
+                })
+
+            }
+            text.innerText == "❤️" ? sub() : add()
+        }
+    </script>
+
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             <!-- {{ __('dhghvmh') }} -->
@@ -18,12 +45,65 @@
     <div class='bg-gray-900'>
         <div class='grid gap-4 m-4 sm:grid-cols-12'>
             <!-- right side -->
-            <div class="right bg-gray-800 min-h-[100px] sm:col-span-3">
+            <div class="right bg-gray-800 min-h-[100px] sm:col-span-4">
+
+
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    All profiles
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Follow</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    USER 1
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Follow</a>
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    User 2
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Follow</a>
+                                </td>
+                            </tr>
+                            <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    User 3
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Follow</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 
+
+
             <!-- middle post portion -->
-            <div class="flex flex-col middle bg-gray-800 pl-10 min-h-[100px] sm:col-span-6">
+            <div class="flex flex-col middle bg-gray-800 pl-10 min-h-[100px] sm:col-span-4">
                 <div class="m-2">
                     <!-- <a href="#"> -->
                     <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-post')">Add
@@ -76,11 +156,33 @@
                             <img height=200 width=500 class="" src="{{ asset('storage/'.$post->postImg) }} " alt="" />
                         </div>
 
+                        <div>
+
+                            <!-- ❤️ 🤍 -->
+                            <!-- Blade Template -->
+                            @auth
+                            <button id="" onclick="like({{$post->post_id}})">
+                                <span class="heart" id="{{$post->post_id}}">🤍</span>
+                            </button>
+                            <p id="count-{{$post->post_id}}">{{$post->like_count}}</p>
+                            @foreach($likes as $like)
+                            @if($like['post_id']==$post->post_id)
+                            <script>
+                                document.getElementById("{{$post->post_id}}").innerText = "❤️"
+                            </script>
+                            @endif
+                            @endforeach
+                            @endauth
+
+                        </div>
+
                         @auth
+                        @if($user->id == $post->user_id)
                         <div class=" m-3 grid gap-2 sm:grid-cols-2">
                             <x-danger-button class="ml-3"> Delete Post </x-danger-button>
                             <x-secondary-button class="ml-3"> Edit Post </x-secondary-button>
                         </div>
+                        @endif
                         @endauth
                     </div>
                 </div>
@@ -90,13 +192,59 @@
 
 
             <!-- left side -->
-            <div class="left bg-gray-800 min-h-[100px] sm:col-span-3"></div>
-
-            <!-- <div class="right bg-orange-400 min-h-[10px] sm:col-span-3"></div>
-            <div class="middle bg-slate-50 min-h-[200px] sm:col-span-6"></div>
-            <div class="left bg-green-800 min-h-[50px] sm:col-span-3" ></div> -->
+            <div class="left bg-gray-800 min-h-[100px] sm:col-span-4">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Yours friend list
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Add</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Apple MacBook Pro 17"
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Microsoft Surface Pro
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
+                                </td>
+                            </tr>
+                            <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Magic Mouse 2
+                                </th>
+                                <td class="px-6 py-4 text-right">
+                                    <a href="#"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+
 
 
 

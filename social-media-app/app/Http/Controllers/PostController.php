@@ -24,6 +24,7 @@ class PostController extends Controller
         $post->user_id=auth()->user()->id;
         $post->postText=$req->input('post_text');
         $post->postImg = $imagePath;
+        $post->like_count = 0;
         $post->save();
         return redirect('/dashboard');
     }
