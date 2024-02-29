@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'allPostshow'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'everyControll'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,6 +34,9 @@ Route::patch('/post/add', [PostController::class, 'addPost'])->name('post.add');
 // Route::post('/posts/{postId}/toggle-like/{status}', [LikeController::class, 'like'])->name('toggle.like');
 Route::get('/post/like/add/{postid}', [LikeController::class, 'likePost'])->name('toggle.like');
 Route::get('/post/like/remove/{postid}', [LikeController::class, 'dislikePost'])->name('toggle.like');
+
+Route::get('/follower/add/{userid}', [FollowController::class, 'followerAdd'])->name('follower.add');
+Route::get('/follower/remove/{userid}', [FollowController::class, 'followerRemove'])->name('follower.remove');
 
 
 
