@@ -17,8 +17,10 @@ class Post extends Model
         'like_count',
     ];
 
-    // protected $table = "posts";
-    // protected $primaryKey = "post_id";
+    protected $table = "posts";
+    protected $primaryKey = "post_id";
+
+
 
     // public function likes(){
     //     return $this->hasMany(Like::class, 'post_id');
@@ -27,5 +29,10 @@ class Post extends Model
     // public function isLikedBy($user){
     //     return $this->likes()->where('user_id', $user->id)->exists();
     // }
+
+    public function postedBy()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }

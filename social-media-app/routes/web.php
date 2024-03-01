@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::patch('/post/add', [PostController::class, 'addPost'])->name('post.add');
+Route::get('/post/delete/{postid}', [PostController::class, 'deletePost'])->name('post.delete');
+Route::patch('/post/edit/{postid}', [PostController::class, 'editPost'])->name('post.edit');
+
+
 // Route::post('/posts/{postId}/toggle-like/{status}', [LikeController::class, 'like'])->name('toggle.like');
 Route::get('/post/like/add/{postid}', [LikeController::class, 'likePost'])->name('toggle.like');
 Route::get('/post/like/remove/{postid}', [LikeController::class, 'dislikePost'])->name('toggle.like');
