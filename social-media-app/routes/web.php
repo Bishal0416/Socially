@@ -46,6 +46,6 @@ Route::get('/follower/remove/{userid}', [FollowController::class, 'followerRemov
 Route::get('only/{userid}',[ProfileViewController::class,'show']);
 
 
-Route::get('/demo',[DashboardController::class, 'demo']);
+// Route::get('/demo',[DashboardController::class, 'demo']);  -> This is for checking purpose
 
 require __DIR__.'/auth.php';

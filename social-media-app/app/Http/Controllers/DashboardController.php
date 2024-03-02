@@ -25,15 +25,13 @@ class DashboardController extends Controller
         return view('dashboard', ['allPosts'=> $allPosts, 'user'=>$user, 'likes'=> $likes, 'allusers'=>$allusers, 'userexceptfollows'=>$userexceptfollows, 'follows'=>$follows]);
     }
 
-    public function demo(){
-
-        $details = Post::find(5);
-        if(is_null($details->postImg)){
-            dd('true');
-        }
-        dd('flase');
-    }
-
+    // public function demo(){
+    //     $details = Post::find(5);
+    //     if(is_null($details->postImg)){
+    //         dd('true');
+    //     }
+    //     dd('flase');
+    // }
         // $alluser = User::where();
         // $user = User::find(2);
         // $currentUser = User::find(2);
@@ -52,7 +50,7 @@ class DashboardController extends Controller
         //     print_r( $arr);
         //     $g = User::whereNotIn('id', $arr)->get();
         //     dd($s);
-// dd($usersss);
-    //    echo $s;
+        // dd($usersss);
+        //    echo $s;
         // return '<img height=200 width=500 class="" src="storage/images/Ou4fbKvWiQvAjVkU351UxisNQldMuA2HEowAaUbD.jpg " alt="" />';
 }
