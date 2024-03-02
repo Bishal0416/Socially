@@ -12,20 +12,16 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function everyControll(){
-        $allPosts = Post::all();
+        $allPosts = Post::inRandomOrder()->get();
         $user = Auth::user(); 
-        $allusers = User::all();
+        $allusers = User::inRandomOrder()->get();
         $arr =[];
         $follows = $user->follows;
         foreach($follows as $follow){
             array_push($arr, $follow->id);
         }
-        $userexceptfollows = User::whereNotIn('id', $arr)->get();
-
-
-
+        $userexceptfollows = User::whereNotIn('id', $arr)->inRandomOrder()->get();
         $likes = Like::select('post_id')->where('user_id',$user->id)->get();
-        // $data = compact('allPosts');
         return view('dashboard', ['allPosts'=> $allPosts, 'user'=>$user, 'likes'=> $likes, 'allusers'=>$allusers, 'userexceptfollows'=>$userexceptfollows, 'follows'=>$follows]);
     }
 

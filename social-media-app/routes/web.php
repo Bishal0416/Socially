@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\ProfileViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,7 @@ Route::get('/post/like/remove/{postid}', [LikeController::class, 'dislikePost'])
 Route::get('/follower/add/{userid}', [FollowController::class, 'followerAdd'])->name('follower.add');
 Route::get('/follower/remove/{userid}', [FollowController::class, 'followerRemove'])->name('follower.remove');
 
+Route::get('only/{userid}',[ProfileViewController::class,'show']);
 
 
 Route::get('/demo',[DashboardController::class, 'demo']);

@@ -37,7 +37,7 @@
             @endif
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <h1 class='text-slate-50 font-bold text-3xl'>Welcome to Best Social media platform</h1>
+                <h1 class='text-slate-50 font-bold text-3xl'>Welcome to Our platform.... to share your thoughts</h1>
             </div>
         </div>
     </body>

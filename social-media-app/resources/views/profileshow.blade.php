@@ -29,7 +29,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             <!-- {{ __('dhghvmh') }} -->
-            Feeds
+            All Posts from {{$currentuser}}
         </h2>
     </x-slot>
 
@@ -47,6 +47,7 @@
             <!-- right side -->
             <div class="right bg-gray-800 min-h-[100px] sm:col-span-4">
                 <div>
+                    <form action=""></form>
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -67,7 +68,7 @@
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <th scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <a href="/only/{{$users->id}}" class="hover:text-green-200 hover:underline">{{ $users->name }}</a>
+                                                <a href="/only/{{$users->id}}">{{ $users->name }}</a>
                                             </th>
                                             <td class="px-6 py-4 text-right">
                                                 <a href="/follower/add/{{$users->id}}"
@@ -85,44 +86,8 @@
 
 
             <!-- middle post portion -->
-            <div class="flex flex-col middle bg-gray-800 pl-10 min-h-[100px] sm:col-span-4 overflow-y-scroll h-screen">
-                <div class="m-2">
-                    <!-- <a href="#"> -->
-                    <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-post')">Add
-                        Post</x-primary-button>
-                    <!-- </a> -->
-                    <x-modal name="add-post" :show="$errors->userDeletion->isNotEmpty()" focusable>
-                        <form action="{{ route('post.add') }}" method="POST" class="m-2" enctype="multipart/form-data">
-                            @csrf
-                            @method('patch')
-                            <div class='m-2'>
-                                <x-input-label for="name" value="Share your feel" />
-                                <x-text-input type="text" name="post_text" class="mt-1 block w-full" value="" id="name"
-                                    autofocus />
-                                <x-input-error class="mt-2" :messages="$errors->get('post_text')" />
-                            </div>
-                            <div class='m-2'>
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    for="file">Upload file</label>
-                                <input id="file" name="post_img"
-                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                    aria-describedby="user_avatar_help" type="file">
-                                <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">Lets
-                                    share your today's feel</div>
-                                <x-input-error class="mt-2" :messages="$errors->get('post_img')" />
-                            </div>
-                            <div class="mt-6 flex justify-end">
-                                <x-secondary-button x-on:click="$dispatch('close')">
-                                    Cancel
-                                </x-secondary-button>
+            <div class="flex flex-col middle bg-gray-800 pl-10 min-h-[100px] sm:col-span-4">
 
-                                <x-danger-button class="ml-3">
-                                    Post
-                                </x-danger-button>
-                            </div>
-                        </form>
-                    </x-modal>
-                </div>
 
 
 
@@ -130,7 +95,7 @@
                 <!-- All POST SHOWN HERE -->
                 @isset($allPosts)
                 @foreach($allPosts as $post)
-                <div class="m-2 border-b-2">
+                <div class="m-2">
                     <div class="mb-3 font-xl text-white">
                         {{$post->postedBy->name}}
                         <p class="text-blue-400">Posted : {{$post->created_at->diffForHumans()}}</p>
